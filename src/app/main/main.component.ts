@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenService } from '../core/services/authen.service';
+import { UtilityService } from '../core/services/utility.service';
+import { LoggedInUser } from '../core/domain/loggedin.user';
+import { SystemConstants } from '../core/common/system.constants';
 
 @Component({
   selector: 'app-main',
@@ -6,10 +10,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-
-  constructor() { }
+  public user:LoggedInUser;
+  constructor(private authenService:AuthenService,private utilityService:UtilityService) { }
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem(SystemConstants.CURRENT_USER));
+  }
+
+  logout(){
+    this.authenService.logout();
+    this.utilityService.navigateToLogin();
   }
 
 }
